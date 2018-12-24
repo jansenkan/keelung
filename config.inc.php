@@ -1,21 +1,21 @@
 <?
-/* mysql¸ê®Æ®w¬ÛÃö°T®§ */
+/* mysqlè³‡æ–™åº«ç›¸é—œè¨Šæ¯ */
 $DbHostName = "localhost";
 $DbUserName = "root";
-$DbUserPass = "ttjh";
+$DbUserPass = "xxxxxx";
 $DbName     = "keelung";
 
-/*  ¸ê®Æªí¦WºÙ  */
-$Candidate_tbl = "candidate";		/* ­Ô¿ï¤H¸ê®Æªí¦WºÙ */
-$P_S_tbl       = "polling_station";	/* §ë¶}²¼©Ò¸ê®Æªí¦WºÙ */
-$P_S_sift_tbl  = "ps_sift";	    /* §ë¶}²¼©Ò¤À°Ï¿z¿ï¸ê®Æªí¦WºÙ */
-$Zone_tbl      = "zone";		    /* ¦U¤À°Ï¸ê®Æªí¦WºÙ */
-$Vote_tbl      = "vote_count";		/* §ë²¼©Ò¾É¦V¤§²¼¼Æ²Î­p¸ê®Æªí¦WºÙ */
-$Cand_cnt_tbl  = "cand_count";		/* ­Ô¿ï¤H¾É¦V¤§²¼¼Æ²Î­p¸ê®Æªí¦WºÙ */
+/*  è³‡æ–™è¡¨åç¨±  */
+$Candidate_tbl = "candidate";		/* å€™é¸äººè³‡æ–™è¡¨åç¨± */
+$P_S_tbl       = "polling_station";	/* æŠ•é–‹ç¥¨æ‰€è³‡æ–™è¡¨åç¨± */
+$P_S_sift_tbl  = "ps_sift";	    /* æŠ•é–‹ç¥¨æ‰€åˆ†å€ç¯©é¸è³‡æ–™è¡¨åç¨± */
+$Zone_tbl      = "zone";		    /* å„åˆ†å€è³‡æ–™è¡¨åç¨± */
+$Vote_tbl      = "vote_count";		/* æŠ•ç¥¨æ‰€å°å‘ä¹‹ç¥¨æ•¸çµ±è¨ˆè³‡æ–™è¡¨åç¨± */
+$Cand_cnt_tbl  = "cand_count";		/* å€™é¸äººå°å‘ä¹‹ç¥¨æ•¸çµ±è¨ˆè³‡æ–™è¡¨åç¨± */
 //
-/* ³s±µ¸ê®Æ®w¨ÃÅª¨ú¨t²Î¬ÛÃö°T®§ */
+/* é€£æ¥è³‡æ–™åº«ä¸¦è®€å–ç³»çµ±ç›¸é—œè¨Šæ¯ */
 $link = mysql_pconnect($DbHostName, $DbUserName, $DbUserPass)
-        or die("<font color=red>Could not connect(µLªk³sµ²¸ê®Æ®w): " . mysql_error()."</font>");
+        or die("<font color=red>Could not connect(ç„¡æ³•é€£çµè³‡æ–™åº«): " . mysql_error()."</font>");
 //mysql_connect($HostName,$UserName,$UserPass);
 mysql_select_db($DbName);
 
@@ -32,28 +32,28 @@ $RefreshSec1   = $o->refresh_sec1;
 $RefreshSec2   = $o->refresh_sec2;
 $Ballot2ComeIn = $o->ballot2comein;
 
-/*  ºŞ²zªÌ±b¸¹¤Î±K½X  */
+/*  ç®¡ç†è€…å¸³è™ŸåŠå¯†ç¢¼  */
 $Uname   = $o->admin_name;
 $Pword   = $o->admin_pass;
 $AdminName['root'] = "administrator";
 $AdminPwd['root']  = "admin_admin";
 
-/* ­p²¼µ²§ô®É¤§½ü¼½¶¡¹j¬í¼Æ */
+/* è¨ˆç¥¨çµæŸæ™‚ä¹‹è¼ªæ’­é–“éš”ç§’æ•¸ */
 if($Ending)
    $delay = $RefreshSec2;
 else
    $delay = $RefreshSec1;
 
-// NTª©--¨ú±o¥Ø«e¥Ø¿ıªº¯u¹ê¸ô®|¨Ã§ï "\" --> "\\"
+// NTç‰ˆ--å–å¾—ç›®å‰ç›®éŒ„çš„çœŸå¯¦è·¯å¾‘ä¸¦æ”¹ "\" --> "\\"
 $path_root = str_replace("\\","/",getcwd());
-$path_img_rela = "pic/";				/* ¤W¶Ç¹ÏÀÉ¦s©ñ¤§¬Û¹ï¸ô®| */
-$path_img_abs  = $path_root."/".$path_img_rela;		/* ¤W¶Ç¹ÏÀÉ¦s©ñ¤§µ´¹ï¸ô®| */
+$path_img_rela = "pic/";				/* ä¸Šå‚³åœ–æª”å­˜æ”¾ä¹‹ç›¸å°è·¯å¾‘ */
+$path_img_abs  = $path_root."/".$path_img_rela;		/* ä¸Šå‚³åœ–æª”å­˜æ”¾ä¹‹çµ•å°è·¯å¾‘ */
 
-/* ¨ä¾l¨t²Î¬ÛÃö°T®§ */
-$from_ip      = getenv("REMOTE_ADDR");  	// ¨ú±o¨Ï¥ÎªÌip
-$server_name  = getenv("SERVER_NAME"); 	// ¨ú±oserver_name
-$process_date = date("Y/m/d H:i:s");       // ¨ú±o¥Ø«e¤é´Á»P®É¶¡
+/* å…¶é¤˜ç³»çµ±ç›¸é—œè¨Šæ¯ */
+$from_ip      = getenv("REMOTE_ADDR");  	// å–å¾—ä½¿ç”¨è€…ip
+$server_name  = getenv("SERVER_NAME"); 	// å–å¾—server_name
+$process_date = date("Y/m/d H:i:s");       // å–å¾—ç›®å‰æ—¥æœŸèˆ‡æ™‚é–“
 
-/* ¸ü¤J¤½¥Î¨ç¦¡®w */
+/* è¼‰å…¥å…¬ç”¨å‡½å¼åº« */
 require_once "functions.php";
 ?>
