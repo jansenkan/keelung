@@ -1,0 +1,152 @@
+<?
+include("config.inc.php");
+include("table.sql");
+/* 說明訊息變數值設定 */
+$msg_title = "<font color=#FFFFFF size=+1>「線上開票管理系統」安裝介面<br><font size=-1>程式作者：甘之信  jansen@ms13.url.com.tw</font></font>";
+$msg_body  = "
+  ◎安裝前必須先完成如下準備工作及瞭解如下事項：<br><br>
+  1.修改 config.inc.php 之內容<br>
+  <font color=#000000>
+    /* mysql資料庫相關訊息 */ <br>
+    \$HostName = \"<font color=red>在此填入資料庫主機名稱</font>\";<br>
+    \$UserName = \"<font color=red>在此填入資料庫使用者名稱</font>\";<br>
+    \$UserPass &nbsp;&nbsp;= \"<font color=red>在此填入資料庫使用者密碼</font>\";<br>
+    \$DbName &nbsp;&nbsp;= \"<font color=red>在此填入資料庫名稱</font>\";<br><br>
+    /*  系統管理者帳號及密碼  */<br>
+    \$AdminName['root'] = \"<font color=red>在此填入系統管理者帳號</font>\";<br>
+    \$AdminPwd['root'] &nbsp;&nbsp;= \"<font color=red>在此填入系統管理者密碼</font>\";<br><br>
+    /*  競賽管理者帳號及密碼  */<br>
+    \$AdminName['play'] = \"<font color=red>在此填入競賽管理者帳號</font>\";<br>
+    \$AdminPwd['play'] &nbsp;&nbsp;= \"<font color=red>在此填入競賽管理者密碼</font>\";<br><br>
+    /*  檢錄管理者帳號及密碼  */<br>
+    \$AdminName['regist'] = \"<font color=red>在此填入檢錄管理者帳號</font>\";<br>
+    \$AdminPwd['regist'] &nbsp;&nbsp;= \"<font color=red>在此填入檢錄管理者密碼</font>\";<br><br>
+    /*  終點成績登錄管理者帳號及密碼  */<br>
+    \$AdminName['score'] = \"<font color=red>在此填入終點成績登錄管理者帳號</font>\";<br>
+    \$AdminPwd['score'] &nbsp;&nbsp;= \"<font color=red>在此填入終點成績登錄管理者密碼</font>\";<br><br>
+    </font>
+  2.預設單位「競賽組」之帳號、密碼皆為「admin」。<br><br>
+  3.預設單位「競賽組」之帳號、密碼不可與系統管理者相同，否則將優先<br>
+   進入「競賽組」之填報畫面(即管理功能將失效)。<br>";
+$msg_foot1 = "
+   <form action=".$_SERVER['PHP_SELF']." method=post>
+   若確認無誤，請點按下列「開始安裝」按鈕！<br>
+   <input type=hidden name=action value=go>
+   <input type=submit name=s1 value=開始安裝>&nbsp;&nbsp;&nbsp;&nbsp;
+   <input type=button name=b1 value=重新整理 onclick=\"location='".$_SERVER['PHP_SELF']."'\">
+   </form>";
+$msg_foot2 = "
+   <form action=".$_SERVER['PHP_SELF']." method=post>
+   <input type=submit name=s1 value=重新安裝><br>
+   若無任何錯誤訊息，則可以<a href=./>開始使用</a>本系統！<br>
+   <font color=red>※請將本安裝程式 install.php 更名為 install.php_，已維系統安全！</font>
+   </form>";
+
+$msg0 = "<font color=blue>您要安裝的資料庫名稱設為：<font color=#009300 size=+1>".$DbName."</font></font>";
+$msg1 = "<br><font color=red size=+1>您尚未在 <font color=blue>config.inc.php</font> 中設定資料庫名稱<br>請設定好後，再重新執行本安裝程式！</font>";
+$msg2 = "<font color=blue>您要安裝的資料庫名稱設為：<font color=#009300 size=+1>".$DbName."</font> 尚不存在！</font>";
+$msg3 = "<font color=red>因資料庫尚未安裝，固上列若有錯誤訊息產生乃正常現象，可不予理會！</font>";
+$msg4 = "<font color=#009300 size=+1>系統會刪除原有存在之資料庫，再重新建立一個新的！</font>";
+$msg5 = "<font color=#009300 size=+1>系統將會幫您建立！</font>";
+
+echo head();
+echo "<center>";
+/* 安裝說明畫面 */
+if($_POST['action']<>'go'){
+   echo "
+   <table cellpadding=10>
+    <tr>
+     <td bgcolor=#009380 align=center>
+     $msg_title
+     </td>
+    </tr>
+    <tr>
+     <td bgcolor=#FFFFA0>
+     <font color=#009380>
+     $msg_body
+     </font>
+     </td>
+    </tr>
+    <tr>
+     <td bgcolor=#E0E0E0>";
+   if($DbName){
+      if(mysql_select_db($DbName)){
+         echo $msg3."<br>".$msg0."<br>";
+         echo $msg4."<br>";
+      }else{
+         echo $msg3."<br>".$msg2."<br>";
+         echo $msg5."<br>";
+      }
+      echo $msg_foot1;
+   }else{
+      echo $msg3."<br>".$msg1."<br>";
+      echo "<input type=button name=b1 value=重新整理 onclick=\"location='".$_SERVER['PHP_SELF']."'\">";
+   }
+   echo "
+    </tr>
+   </table>";
+   
+/* 安裝過程 */   
+}else{
+   echo "
+   <table cellpadding=10>
+    <tr>
+     <td bgcolor=#009380 align=center>
+     $msg_title
+     </td>
+    </tr>
+    <tr>
+     <td bgcolor=#FFFFA0>
+     <font color=#009380>";
+     
+   /* 建立資料庫 */
+   if(mysql_select_db($DbName)){
+      echo "<font color=blue size=+1>刪除資料庫…</font><br>\n";
+      $sql = 'DROP DATABASE '.$DbName;
+      if(mysql_query($sql)){
+         echo "<font color=#009300>資料庫 ".$DbName." 刪除完成！</font><br>\n";
+      }else{
+         echo "<font color=red>資料庫 ".$DbName." 刪除失敗！</font><br>\n";
+      }
+   }
+   echo "<br><font color=blue size=+1>建立資料庫…</font><br>\n";
+   $sql = 'CREATE DATABASE '.$DbName;
+   if(mysql_query($sql)){
+      echo "<font color=#009300>資料庫 ".$DbName." 建立完成！</font><br>\n";
+      mysql_select_db($DbName);
+   }else{
+      echo "<font color=red>資料庫 ".$DbName." 建立失敗！</font><br>\n";
+   }
+   
+   /* 建立資料表 */
+   echo "<br><font color=blue size=+1>建立資料表…</font><br>\n";
+   foreach ($create_tbl as $k => $v){
+      if(mysql_query($v)){
+         echo "<font color=#009300>資料表 ".$k." 建立完成！</font><br>\n";
+      }else{
+         echo "<font color=red>資料表 <font color=#000000>".$k."</font> 建立失敗！<font color=#000000>[請檢查：可能語法錯誤(table.sql) 或 資料表已經存在]</font></font><br>\n";
+      }
+   }
+
+   /* 插入資料表之預設值 */
+   echo "<br><font color=blue size=+1>插入預設值…</font><br>\n";
+   foreach ($insert_tbl as $k => $v){
+      if(mysql_query($v)){
+         echo "<font color=#009300>資料表 ".$k." 預設值插入完成！</font><br>\n";
+      }else{
+         echo "<font color=red>資料表 <font color=#000000>".$k."</font> 預設值插入失敗！<font color=#000000>[請檢查：可能語法錯誤(table.sql) 或 資料表不存在]</font></font><br>\n";
+      }
+   }
+   echo "
+     </font>
+     </td>
+    </tr>
+    <tr>
+     <td bgcolor=#E0E0E0>
+     $msg_foot2
+     </td>
+    </tr>
+   </table>";
+}
+echo foot();
+?>
