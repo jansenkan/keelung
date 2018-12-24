@@ -1,16 +1,16 @@
 <?
 #---------------------------------------------------
-#   ·s¼W§ë¶}²¼©Ò¥Dµ{¦¡
+#   æ–°å¢æŠ•é–‹ç¥¨æ‰€ä¸»ç¨‹å¼
 #   by jansen since 2003.03.16
 #---------------------------------------------------
 include "config.inc.php";
 session_id()?'':session_start();
-/* «D¨t²ÎºŞ²zªÌ¡A½Ğ§ï¹D¡I */
+/* éç³»çµ±ç®¡ç†è€…ï¼Œè«‹æ”¹é“ï¼ */
 if($_SESSION['root']<>"sys_player"){
    header("location:index.php");
    exit;
 }
-/* ÅÜ¼Æªì­È³]©w */
+/* è®Šæ•¸åˆå€¼è¨­å®š */
 $ps_no    = isset($_POST['ps_no'])?$_POST['ps_no']:'';
 $ps_name  = isset($_POST['ps_name'])?$_POST['ps_name']:'';
 $voters   = isset($_POST['voters'])?$_POST['voters']:'';
@@ -25,17 +25,17 @@ $confirm  = isset($_GET['confirm']) ?$_GET['confirm'] :'';
 $alert_bg_clr    ="yellow";
 
 if($Lock){
-   echo "<center><font color=red size=5>©êºp¡I¥»¥\¯à¤w¾D¨t²ÎÂê©w¡A¶·¸ÑÂê«á¤~¯à¨Ï¥Î¡I</font></center>";
+   echo "<center><font color='red' size='5'>æŠ±æ­‰ï¼æœ¬åŠŸèƒ½å·²é­ç³»çµ±é–å®šï¼Œé ˆè§£é–å¾Œæ‰èƒ½ä½¿ç”¨ï¼</font></center>";
    exit;
 }
-// ¥ş¤WÂê   
+// å…¨ä¸Šé–   
 if($action=="all_lock"){
    $sql_update = "update $P_S_tbl set _lock='1'";
    mysql_query($sql_update);
    header("location:".$_SERVER['PHP_SELF']);
    exit;
 
-// ¥ş¸ÑÂê
+// å…¨è§£é–
 }elseif($action=="all_unlock"){
    $sql_update = "update $P_S_tbl set _lock=''";
    mysql_query($sql_update);
@@ -44,7 +44,7 @@ if($action=="all_lock"){
 
 }elseif($action=="insert" and !empty($ps_name)){
 
-   /* ·s¼W§ë¶}²¼©Ò */
+   /* æ–°å¢æŠ•é–‹ç¥¨æ‰€ */
    $sql_insert = "insert into $P_S_tbl (ps_no,ps_name,voters,ps_user,password,ps_ip,_lock,remark) values ('".($ps_no*1)."','$ps_name','".($voters*1)."','$ps_user','$password','$ps_ip','$_lock','$remark')";
    mysql_query($sql_insert);
    header("location:".$_SERVER['PHP_SELF']);
@@ -53,7 +53,7 @@ if($action=="all_lock"){
 }elseif($action=="delete"){
 
    if($confirm=="yes"){
-      /* §R°£§ë¶}²¼©Ò */
+      /* åˆªé™¤æŠ•é–‹ç¥¨æ‰€ */
       $sql_delete = "delete from $P_S_tbl where rid='".$rid."'";
       mysql_query($sql_delete);
       header("location:".$_SERVER['PHP_SELF']);
@@ -67,12 +67,12 @@ if($action=="all_lock"){
       $echo_str .= "<meta http-equiv=\"Content-Type\" content=\"text/html; Charset=Big5\">\n";
       $echo_str .= "<body><center>\n";
       $echo_str .= "<table style=\"border-collapse: collapse;border:2px dashed\" bordercolor=\"#FF0000\" border=1 bgcolor=yellow>";
-      $echo_str .= "<tr><td align=center><br>\n";
-      $echo_str .= "<font color=red size=7><b>¦MÀIÄµ§i¡I</b></font><br><br>\n";
-      $echo_str .= "<center><font color=green size=5><b>¡¸ ±z½T©w­n§R°£¡u".$o->ps_no."_".$o->ps_name."¡v§ë²¼©Ò¸ê®Æ¶Ü¡H ¡¸</b></font><br><br>\n";
-      $echo_str .= "<font color=red>¡°¤@¥¹§R°£¡A«h¸ê®Æ±NµLªk®¾¦^¡I</font><br><br>\n";
-      $echo_str .= "<input type=\"button\" value=\"§Ú«Ü½T©w\" name=\"B1\" onclick=\"location='".$_SERVER['PHP_SELF']."?action=delete&confirm=yes&rid=".$rid."&".(session_id()?SID:'')."'\">&nbsp;&nbsp;&nbsp;&nbsp;";
-      $echo_str .= "<input type=\"button\" value=\"¨ú¡@¡@®ø\" name=\"B1\" onclick=\"location='javascript:window.history.back()'\"><br></center>";
+      $echo_str .= "<tr><td align=\"center\"><br>\n";
+      $echo_str .= "<font color=\"red\" size=\"7\"><b>å±éšªè­¦å‘Šï¼</b></font><br><br>\n";
+      $echo_str .= "<center><font color=\"green\" size=\"5\"><b>â˜† æ‚¨ç¢ºå®šè¦åˆªé™¤ã€Œ".$o->ps_no."_".$o->ps_name."ã€æŠ•ç¥¨æ‰€è³‡æ–™å—ï¼Ÿ â˜†</b></font><br><br>\n";
+      $echo_str .= "<font color=\"red\">â€»ä¸€æ—¦åˆªé™¤ï¼Œå‰‡è³‡æ–™å°‡ç„¡æ³•æŒ½å›ï¼</font><br><br>\n";
+      $echo_str .= "<input type=\"button\" value=\"æˆ‘å¾ˆç¢ºå®š\" name=\"B1\" onclick=\"location='".$_SERVER['PHP_SELF']."?action=delete&confirm=yes&rid=".$rid."&".(session_id()?SID:'')."'\">&nbsp;&nbsp;&nbsp;&nbsp;";
+      $echo_str .= "<input type=\"button\" value=\"å–ã€€ã€€æ¶ˆ\" name=\"B1\" onclick=\"location='javascript:window.history.back()'\"><br></center>";
       $echo_str .= "<br><br>\n";
       $echo_str .= "</td></tr></table>\n";
       $echo_str .= "</center></body></html>\n";
@@ -82,7 +82,7 @@ if($action=="all_lock"){
    
 }elseif($action=="upd_confirm"){
 
-   /* ­×§ï§ë¶}²¼©Ò */
+   /* ä¿®æ”¹æŠ•é–‹ç¥¨æ‰€ */
    $sql_update = "update $P_S_tbl set ps_no='".($ps_no*1)."',ps_name='$ps_name',voters='".($voters*1)."',ps_user='$ps_user',password='$password',ps_ip='$ps_ip',_lock='$_lock',remark='$remark' where rid='".$rid."'";
    mysql_query($sql_update);
    header("location:".$_SERVER['PHP_SELF']);
@@ -93,7 +93,7 @@ if($action=="all_lock"){
    $echo_str  = "<html><head>\n";
    $echo_str .= "<meta http-equiv=\"Content-Type\" content=\"text/html; Charset=Big5\">\n";
    $echo_str .= "<Link Rel='stylesheet' Type='text/css' Href='style_c.css'>\n";
-   $echo_str .= "<title>".$Title."--·s¼W§ë¶}²¼©Ò</title>\n";
+   $echo_str .= "<title>".$Title."--æ–°å¢æŠ•é–‹ç¥¨æ‰€</title>\n";
    $echo_str .= '
 <script language="JavaScript">
 <!--
@@ -101,36 +101,36 @@ function setBG(TheColor,TheObject) {TheObject.bgColor=TheColor}
 //-->
 </script>';
    $echo_str .= "</head><body>\n";
-   $echo_str .= "<center><form action=".$_SERVER['PHP_SELF']." method=post>\n";
-   $echo_str .= "<font color=#009300 size=+1>·s¼W§ë¶}²¼©ÒºŞ²zµ{¦¡</font>\n";
-   $echo_str .= "<table border=1 cellspacing=0 style=\"border-collapse: collapse\" bordercolor=orange>\n";
-   $echo_str .= "<tr bgcolor=#FFC993 align=center><td><a name=insert>²Ö­p</a></td><td>½s¸¹</td><td>§ë¶}²¼©Ò¦WºÙ</td><td>§ë²¼Åv¤H¼Æ</td><td>ºŞ²z±b¸¹</td><td>ºŞ²z±K½X</td><td>IP±±ºŞ</td><td>Âêªp</td><td>³Æµù</td><td>°Ê§@</td></tr>\n";
+   $echo_str .= "<center><form action=\"".$_SERVER['PHP_SELF']."\" method=\"post\">\n";
+   $echo_str .= "<font color=\"#009300\" size=\"+1\">æ–°å¢æŠ•é–‹ç¥¨æ‰€ç®¡ç†ç¨‹å¼</font>\n";
+   $echo_str .= "<table border=\"1\" cellspacing=\"0\" style=\"border-collapse: collapse\" bordercolor=\"orange\">\n";
+   $echo_str .= "<tr bgcolor=\"#FFC993\" align=\"cente\"r><td><a name=\"insert\">ç´¯è¨ˆ</a></td><td>ç·¨è™Ÿ</td><td>æŠ•é–‹ç¥¨æ‰€åç¨±</td><td>æŠ•ç¥¨æ¬Šäººæ•¸</td><td>ç®¡ç†å¸³è™Ÿ</td><td>ç®¡ç†å¯†ç¢¼</td><td>IPæ§ç®¡</td><td>é–æ³</td><td>å‚™è¨»</td><td>å‹•ä½œ</td></tr>\n";
 
    $sql_select="select * from $P_S_tbl order by ps_no DESC";
    $result_ps=mysql_query($sql_select);
    $ops=mysql_fetch_object($result_ps);
    
-   /* ·s¼W§ë²¼©Òªí³æ */
+   /* æ–°å¢æŠ•ç¥¨æ‰€è¡¨å–® */
    if($action=="form"){
-      $echo_str .= "<tr bgcolor=FFBBFF>";
-      $echo_str .= "<td><font color=cryan>·s¼W</font></td>";
+      $echo_str .= "<tr bgcolor=\"#FFBBFF\">";
+      $echo_str .= "<td><font color=\"cryan\">æ–°å¢</font></td>";
       $echo_str .= "<td><input type=\"text\" name=\"ps_no\" size=\"4\" value=\"".((isset($ops->ps_no)?$ops->ps_no:0)+1)."\"></td>";
       $echo_str .= "<td><input type=\"text\" name=\"ps_name\" size=\"10\"></td>";
       $echo_str .= "<td><input type=\"text\" name=\"voters\" size=\"10\"></td>";
       $echo_str .= "<td><input type=\"text\" name=\"ps_user\" size=\"10\"></td>";
       $echo_str .= "<td><input type=\"text\" name=\"password\" size=\"10\"></td>";
       $echo_str .= "<td><input type=\"text\" name=\"ps_ip\" size=\"10\"></td>";
-      $echo_str .= "<td><select name=_lock><option value=''>¤£Âê</option><option value='1'>Âê©w</option></select></td>";
+      $echo_str .= "<td><select name=\"_lock\"><option value=''>ä¸é–</option><option value='1'>é–å®š</option></select></td>";
       $echo_str .= "<td><input type=\"text\" name=\"remark\" size=\"10\"></td>";
-      $echo_str .= "<td><input type=\"submit\" name=\"B1\" value=\"Àx¦s\" style='background:red;color:yellow'>";
-      $echo_str .= "<input type=\"button\" value=\"¨ú®ø\" name=\"B2\" style='background:pink;' onclick=\"location='".$_SERVER['PHP_SELF']."'\"></td>";
+      $echo_str .= "<td><input type=\"submit\" name=\"B1\" value=\"å„²å­˜\" style='background:red;color:yellow'>";
+      $echo_str .= "<input type=\"button\" value=\"å–æ¶ˆ\" name=\"B2\" style='background:pink;' onclick=\"location='".$_SERVER['PHP_SELF']."'\"></td>";
       $echo_str .= "</tr>\n";
       $echo_str .= "<input type=\"hidden\" name=\"action\" value=\"insert\">";
    }else{
-      $echo_str .= "<tr><td colspan=10 align=center>";
-      $echo_str .= "<input type=\"button\" value=\"·s¼W§ë¶}²¼©Ò\" name=\"B1\" onclick=\"location='".$_SERVER['PHP_SELF']."?action=form#insert'\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-      $echo_str .= "<input type=\"button\" value=\"¥ş¤WÂê\" name=\"B1\" onclick=\"location='".$_SERVER['PHP_SELF']."?action=all_lock'\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-      $echo_str .= "<input type=\"button\" value=\"¥ş¸ÑÂê\" name=\"B1\" onclick=\"location='".$_SERVER['PHP_SELF']."?action=all_unlock'\">";
+      $echo_str .= "<tr><td colspan=\"10\" align=\"cente\"r>";
+      $echo_str .= "<input type=\"button\" value=\"æ–°å¢æŠ•é–‹ç¥¨æ‰€\" name=\"B1\" onclick=\"location='".$_SERVER['PHP_SELF']."?action=form#insert'\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+      $echo_str .= "<input type=\"button\" value=\"å…¨ä¸Šé–\" name=\"B1\" onclick=\"location='".$_SERVER['PHP_SELF']."?action=all_lock'\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+      $echo_str .= "<input type=\"button\" value=\"å…¨è§£é–\" name=\"B1\" onclick=\"location='".$_SERVER['PHP_SELF']."?action=all_unlock'\">";
       $echo_str .= "</td></tr>\n";
    }
 
@@ -140,23 +140,23 @@ function setBG(TheColor,TheObject) {TheObject.bgColor=TheColor}
    while ($ps=mysql_fetch_object($result_ps)){
       if(($action=="update") and ($rid==$ps->rid)){
       	 $c++;
-         $echo_str .= "<tr bgcolor=".$alert_bg_clr.">";
-         $echo_str .= "<td><font color=cryan><a name=update>­×§ï</a></font></td>";
+         $echo_str .= "<tr bgcolor=\"".$alert_bg_clr."\">";
+         $echo_str .= "<td><font color=\"cryan\"><a name=\"update\">ä¿®æ”¹</a></font></td>";
          $echo_str .= "<td><input type=\"text\" name=\"ps_no\" size=\"4\" value=\"".$ps->ps_no."\" style=\"color:red;background:FFFF88\"></td>";
          $echo_str .= "<td><input type=\"text\" name=\"ps_name\" size=\"10\" value=\"".$ps->ps_name."\" style=\"color:red;background:FFFF88\"></td>";
          $echo_str .= "<td><input type=\"text\" name=\"voters\" size=\"5\" value=\"".$ps->voters."\" style=\"color:red;background:FFFF88\"></td>";
          $echo_str .= "<td><input type=\"text\" name=\"ps_user\" size=\"10\" value=\"".$ps->ps_user."\" style=\"color:red;background:FFFF88\"></td>";
          $echo_str .= "<td><input type=\"text\" name=\"password\" size=\"10\" value=\"".$ps->password."\" style=\"color:red;background:FFFF88\"></td>";
          $echo_str .= "<td><input type=\"text\" name=\"ps_ip\" size=\"10\" value=\"".$ps->ps_ip."\" style=\"color:red;background:FFFF88\"></td>";
-         $echo_str .= "<td><select name=_lock><option value=''".(($ps->_lock<>'1')?" selected":'').">¤£Âê</option><option value='1'".(($ps->_lock=='1')?" selected":'').">Âê©w</option></select></td>";
+         $echo_str .= "<td><select name=_lock><option value=''".(($ps->_lock<>'1')?" selected":'').">ä¸é–</option><option value='1'".(($ps->_lock=='1')?" selected":'').">é–å®š</option></select></td>";
          $echo_str .= "<td><input type=\"text\" name=\"remark\" size=\"10\" value=\"".$ps->remark."\" style=\"color:red;background:FFFF88\"></td>";
-         $echo_str .= "<td><input type=\"submit\" name=\"B1\" value=\"Àx¦s\" style='background:red;color:yellow'>";
-         $echo_str .= "<input type=\"button\" value=\"¨ú®ø\" name=\"B2\" style='background:pink;' onclick=\"location='".$_SERVER['PHP_SELF']."'\"></td>";
+         $echo_str .= "<td><input type=\"submit\" name=\"B1\" value=\"å„²å­˜\" style='background:red;color:yellow'>";
+         $echo_str .= "<input type=\"button\" value=\"å–æ¶ˆ\" name=\"B2\" style='background:pink;' onclick=\"location='".$_SERVER['PHP_SELF']."'\"></td>";
          $echo_str .= "<input type=\"hidden\" name=\"action\" value=\"upd_confirm\">";
          $echo_str .= "<input type=\"hidden\" name=\"rid\" value=\"".$ps->rid."\">";
          $echo_str .= "</tr>\n";
       }else{
-         $echo_str .= "<tr onMouseOver=setBG('#E0FFD0',this) onMouseout=setBG('',this)>";
+         $echo_str .= "<tr onMouseOver=\"setBG('#E0FFD0',this)\" onMouseout=\"setBG('',this)\">";
          $echo_str .= "<td>".$c++."</td>";
          $echo_str .= "<td>".(empty($ps->ps_no)?"&nbsp;":$ps->ps_no)."</td>";
          $echo_str .= "<td>".(empty($ps->ps_name)?"&nbsp;":$ps->ps_name)."</td>";
@@ -164,10 +164,10 @@ function setBG(TheColor,TheObject) {TheObject.bgColor=TheColor}
          $echo_str .= "<td>".(empty($ps->ps_user)?"&nbsp;":$ps->ps_user)."</td>";
          $echo_str .= "<td>".(empty($ps->password)?"&nbsp;":$ps->password)."</td>";
          $echo_str .= "<td>".(empty($ps->ps_ip)?"&nbsp;":$ps->ps_ip)."</td>";
-         $echo_str .= "<td>".(empty($ps->_lock)?"&nbsp;":"<font color=red>¤wÂê</font>")."</td>";
+         $echo_str .= "<td>".(empty($ps->_lock)?"&nbsp;":"<font color=red>å·²é–</font>")."</td>";
          $echo_str .= "<td>".(empty($ps->remark)?"&nbsp;":$ps->remark)."</td>";
-         $echo_str .= "<td><input type=\"button\" value=\"§R°£\" name=\"B1\" onclick=\"location='".$_SERVER['PHP_SELF']."?action=delete&rid=".$ps->rid."'\">";
-         $echo_str .= "<input type=\"button\" value=\"­×§ï\" name=\"B2\" onclick=\"location='".$_SERVER['PHP_SELF']."?action=update&rid=".$ps->rid."#update'\"></td>";
+         $echo_str .= "<td><input type=\"button\" value=\"åˆªé™¤\" name=\"B1\" onclick=\"location='".$_SERVER['PHP_SELF']."?action=delete&rid=".$ps->rid."'\">";
+         $echo_str .= "<input type=\"button\" value=\"ä¿®æ”¹\" name=\"B2\" onclick=\"location='".$_SERVER['PHP_SELF']."?action=update&rid=".$ps->rid."#update'\"></td>";
          $echo_str .= "</tr>\n";
       }
    }
