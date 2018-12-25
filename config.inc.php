@@ -1,8 +1,8 @@
-<?
+﻿<?
 /* mysql資料庫相關訊息 */
 $DbHostName = "localhost";
 $DbUserName = "root";
-$DbUserPass = "xxxxxx";
+$DbUserPass = "xxxxxxx";
 $DbName     = "keelung";
 
 /*  資料表名稱  */
